@@ -273,7 +273,9 @@ public class Point {
         }
 
         if (column.tag()) {
-          this.tags.put(fieldName, (String) fieldValue);
+          if (fieldValue != null && !((String) fieldValue).isEmpty()) {
+            this.tags.put(fieldName, (String) fieldValue);
+          }
         } else {
           this.fields.put(fieldName, fieldValue);
         }

@@ -586,6 +586,33 @@ public class PointTest {
 		pojo.time = null;
 	}
 
+	@Test
+	public void testAddFieldsFromPOJOWithNullTag() throws NoSuchFieldException, IllegalAccessException {
+		Pojo pojo = new Pojo();
+		pojo.booleanObject = true;
+		pojo.booleanPrimitive = false;
+		pojo.doubleObject = 2.0;
+		pojo.doublePrimitive = 3.1;
+		pojo.integerObject = 32;
+		pojo.integerPrimitive = 64;
+		pojo.longObject = 1L;
+		pojo.longPrimitive = 2L;
+		pojo.time = Instant.now();
+
+		Point p = Point.measurementByPOJO(pojo.getClass()).addFieldsFromPOJO(pojo).build();
+
+		Assertions.assertEquals(pojo.booleanObject, p.getFields().get("booleanObject"));
+		Assertions.assertEquals(pojo.booleanPrimitive, p.getFields().get("booleanPrimitive"));
+		Assertions.assertEquals(pojo.doubleObject, p.getFields().get("doubleObject"));
+		Assertions.assertEquals(pojo.doublePrimitive, p.getFields().get("doublePrimitive"));
+		Assertions.assertEquals(pojo.integerObject, p.getFields().get("integerObject"));
+		Assertions.assertEquals(pojo.integerPrimitive, p.getFields().get("integerPrimitive"));
+		Assertions.assertEquals(pojo.longObject, p.getFields().get("longObject"));
+		Assertions.assertEquals(pojo.longPrimitive, p.getFields().get("longPrimitive"));
+		Assertions.assertEquals(pojo.time, p.getFields().get("time"));
+		Assertions.assertEquals(null, p.getTags().get("uuid"));
+	}
+
   @Test
   public void testAddFieldsFromPOJOWithData() throws NoSuchFieldException, IllegalAccessException {
     Pojo pojo = new Pojo();
