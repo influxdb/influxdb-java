@@ -10,6 +10,7 @@ import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import org.influxdb.InfluxDB.ConsistencyLevel;
+import org.influxdb.dto.utils.CheckTags;
 
 /**
  * {Purpose of This Type}.
@@ -90,7 +91,11 @@ public class BatchPoints {
      * @return the Builder instance.
      */
     public Builder tag(final String tagName, final String value) {
-      this.tags.put(tagName, value);
+      Objects.requireNonNull(tagName, "tagName");
+      Objects.requireNonNull(value, "value");
+      if (CheckTags.isLegalFullCheck(tagName, value)) {
+        this.tags.put(tagName, value);
+      }
       return this;
     }
 
