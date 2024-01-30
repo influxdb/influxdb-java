@@ -323,7 +323,7 @@ public class Cpu {
 }
 ```
 
-2. Add @Measurement,@TimeColumn and @Column annotations (column names default to field names unless otherwise specified):
+2. Add @Measurement, @TimeColumn and @Column annotations (column names default to field names unless otherwise specified):
 
 ```Java
 @Measurement(name = "cpu")
@@ -362,6 +362,24 @@ public class Cpu {
     private Long uptimeSecs;
     // getters (and setters if you need)
 }
+```
+
+Or (if you're on JDK14+ and/or [Android SDK34+](https://android-developers.googleblog.com/2023/06/records-in-android-studio-flamingo.html)):
+
+```Java
+@Measurement(name = "cpu", allFields = true)
+public record Cpu(
+    @TimeColumn
+    Instant time,
+    @Column(name = "host", tag = true)
+    String hostname,
+    @Column(tag = true)
+    String region,
+    Double idle,
+    Boolean happydevop,
+    @Column(name = "uptimesecs")
+    Long uptimeSecs
+) {}
 ```
 
 3. Call _InfluxDBResultMapper.toPOJO(...)_ to map the QueryResult to your POJO:

@@ -28,6 +28,9 @@ import java.lang.annotation.Target;
 /**
  * When a POJO annotated with {@code @Measurement(allFields = true)} is loaded or saved,
  * this annotation can be used to exclude some of its fields.
+ * <p>
+ * Note: this is not considered when loading record measurements.
+ *
  * @see Measurement#allFields()
  *
  * @author Eran Leshem

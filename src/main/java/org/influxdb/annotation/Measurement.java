@@ -44,6 +44,10 @@ public @interface Measurement {
   /**
    * If {@code true}, then all non-static fields of this measurement will be loaded or saved,
    * regardless of any {@code @Column} annotations.
+   * <p>
+   * Note: When loading record measurements, this is always implied to be true,
+   * since the record's canonical constructor is used to populate the record.
+   *
    * @see Exclude
    */
   boolean allFields() default false;
