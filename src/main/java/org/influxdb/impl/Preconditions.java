@@ -1,11 +1,15 @@
 package org.influxdb.impl;
 
+import java.util.regex.Pattern;
+
 /**
  * Functions for parameter validation.
  *
  * @author Simon Legner
  */
 public final class Preconditions {
+
+  private static final String DURATION_REGULAR_EXPRESSION = "(\\d+[wdmhs])+|inf";
 
   private Preconditions() {
   }
@@ -54,7 +58,7 @@ public final class Preconditions {
    * @throws IllegalArgumentException if the given duration is not valid.
    */
   public static void checkDuration(final String duration, final String name) throws IllegalArgumentException {
-    if (!duration.matches("(\\d+[wdmhs])+|inf")) {
+    if (!duration.matches(DURATION_REGULAR_EXPRESSION)) {
       throw new IllegalArgumentException("Invalid InfluxDB duration: " + duration
          + " for " + name);
     }

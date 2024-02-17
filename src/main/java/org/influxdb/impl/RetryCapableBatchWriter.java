@@ -67,6 +67,12 @@ class RetryCapableBatchWriter implements BatchWriter {
   @Override
   public synchronized void write(final Collection<BatchPoints> collection) {
     // empty the cached data first
+    emptyCachedData(collection);
+    // write the last given batch last so that duplicate data points get overwritten correctly
+    writeLastBatch(collection);
+  }
+
+  private void emptyCachedData(final Collection<BatchPoints> collection){
     ListIterator<BatchPoints> batchQueueIterator = batchQueue.listIterator();
     while (batchQueueIterator.hasNext()) {
       BatchPoints entry = batchQueueIterator.next();
@@ -88,7 +94,9 @@ class RetryCapableBatchWriter implements BatchWriter {
         return;
       }
     }
-    // write the last given batch last so that duplicate data points get overwritten correctly
+  }
+
+  private void writeLastBatch(final Collection<BatchPoints> collection){
     Iterator<BatchPoints> collectionIterator = collection.iterator();
     while (collectionIterator.hasNext()) {
       BatchPoints batchPoints = collectionIterator.next();

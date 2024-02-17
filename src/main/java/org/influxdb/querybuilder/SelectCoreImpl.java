@@ -3,7 +3,7 @@ package org.influxdb.querybuilder;
 import static org.influxdb.querybuilder.Appender.appendValue;
 import static org.influxdb.querybuilder.Appender.joinAndAppend;
 import static org.influxdb.querybuilder.Appender.joinAndAppendNames;
-import static org.influxdb.querybuilder.BuiltQuery.trimLast;
+import static org.influxdb.querybuilder.Utility.trimLast;
 import static org.influxdb.querybuilder.FunctionFactory.function;
 
 import java.util.Arrays;

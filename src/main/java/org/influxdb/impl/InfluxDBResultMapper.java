@@ -132,30 +132,6 @@ public class InfluxDBResultMapper {
    * @param clazz the Class that will be used to hold your measurement data
    * @param <T> the target type
    * @param measurementName name of the Measurement
-   *
-   * @return a {@link List} of objects from the same Class passed as parameter and sorted on the
-   * same order as received from InfluxDB.
-   *
-   * @throws InfluxDBMapperException If {@link QueryResult} parameter contain errors,
-   * <code>clazz</code> parameter is not annotated with &#64;Measurement or it was not
-   * possible to define the values of your POJO (e.g. due to an unsupported field type).
-   */
-  public <T> List<T> toPOJO(final QueryResult queryResult, final Class<T> clazz, final String measurementName)
-      throws InfluxDBMapperException {
-    return toPOJO(queryResult, clazz, measurementName, TimeUnit.MILLISECONDS);
-  }
-
-  /**
-   * <p>
-   * Process a {@link QueryResult} object returned by the InfluxDB client inspecting the internal
-   * data structure and creating the respective object instances based on the Class passed as
-   * parameter.
-   * </p>
-   *
-   * @param queryResult the InfluxDB result object
-   * @param clazz the Class that will be used to hold your measurement data
-   * @param <T> the target type
-   * @param measurementName name of the Measurement
    * @param precision the time precision of results
    *
    * @return a {@link List} of objects from the same Class passed as parameter and sorted on the
@@ -263,10 +239,6 @@ public class InfluxDBResultMapper {
 
   String getMeasurementName(final Class<?> clazz) {
     return ((Measurement) clazz.getAnnotation(Measurement.class)).name();
-  }
-
-  String getDatabaseName(final Class<?> clazz) {
-    return ((Measurement) clazz.getAnnotation(Measurement.class)).database();
   }
 
   String getRetentionPolicy(final Class<?> clazz) {
