@@ -42,7 +42,9 @@ final class GzipRequestInterceptor implements Interceptor {
     @Override
     public Response intercept(final Interceptor.Chain chain) throws IOException {
         if (!enabled.get()) {
-            return chain.proceed(chain.request());
+            Request request = chain.request();
+            request = request.newBuilder().addHeader("Accept-Encoding", "identity").build();
+            return chain.proceed(request);
         }
 
         Request originalRequest = chain.request();
