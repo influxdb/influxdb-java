@@ -6,6 +6,8 @@ import org.influxdb.impl.InfluxDBImpl;
 import okhttp3.OkHttpClient;
 import org.influxdb.impl.Preconditions;
 
+import java.net.URL;
+import java.net.MalformedURLException;
 import java.util.Objects;
 
 
@@ -27,6 +29,7 @@ public enum InfluxDBFactory {
    */
   public static InfluxDB connect(final String url) {
     Preconditions.checkNonEmptyString(url, "url");
+    Preconditions.checkHasPort(url);
     return new InfluxDBImpl(url, null, null, new OkHttpClient.Builder());
   }
 
@@ -44,6 +47,7 @@ public enum InfluxDBFactory {
    */
   public static InfluxDB connect(final String url, final String username, final String password) {
     Preconditions.checkNonEmptyString(url, "url");
+    Preconditions.checkHasPort(url);
     Preconditions.checkNonEmptyString(username, "username");
     return new InfluxDBImpl(url, username, password, new OkHttpClient.Builder());
   }
@@ -59,6 +63,7 @@ public enum InfluxDBFactory {
    */
   public static InfluxDB connect(final String url, final OkHttpClient.Builder client) {
     Preconditions.checkNonEmptyString(url, "url");
+    Preconditions.checkHasPort(url);
     Objects.requireNonNull(client, "client");
     return new InfluxDBImpl(url, null, null, client);
   }
@@ -79,6 +84,7 @@ public enum InfluxDBFactory {
    */
   public static InfluxDB connect(final String url, final String username, final String password,
       final OkHttpClient.Builder client) {
+    Preconditions.checkHasPort(url);
     return connect(url, username, password, client, ResponseFormat.JSON);
   }
 
@@ -101,8 +107,10 @@ public enum InfluxDBFactory {
   public static InfluxDB connect(final String url, final String username, final String password,
       final OkHttpClient.Builder client, final ResponseFormat responseFormat) {
     Preconditions.checkNonEmptyString(url, "url");
+    Preconditions.checkHasPort(url);
     Preconditions.checkNonEmptyString(username, "username");
     Objects.requireNonNull(client, "client");
     return new InfluxDBImpl(url, username, password, client, responseFormat);
   }
+
 }

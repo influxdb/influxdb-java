@@ -1,5 +1,8 @@
 package org.influxdb.impl;
 
+import java.net.URL;
+import java.net.MalformedURLException;
+
 /**
  * Functions for parameter validation.
  *
@@ -57,6 +60,26 @@ public final class Preconditions {
     if (!duration.matches("(\\d+[wdmhs])+|inf")) {
       throw new IllegalArgumentException("Invalid InfluxDB duration: " + duration
          + " for " + name);
+    }
+  }
+
+  /**
+   * Check url is legal
+   * @param url the server url
+   * @throws IllegalArgumentException if the port of url is miss
+   */
+  public static void checkHasPort(final String url) throws IllegalArgumentException{
+    String colon = ":";
+    if (!url.contains(colon) || url.endsWith(colon)) {
+      throw new IllegalArgumentException(String.format("The url [%s] port cannot be null", url));
+    }
+    try {
+      URL urlObj = new URL(url);
+      if (-1 == urlObj.getPort()) {
+        throw new IllegalArgumentException(String.format("The url [%s] port cannot be null", url));
+      }
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
     }
   }
 }

@@ -54,4 +54,16 @@ public class InfluxDBFactoryTest {
 			 InfluxDBFactory.connect("invalidUrl");
 		});
 	}
+
+	@Test
+	public void testUrlNotContainsColon() {
+		Assertions.assertThrows(IllegalArgumentException.class, () ->
+				InfluxDBFactory.connect("http://" + TestUtils.getInfluxIP()));
+	}
+
+	@Test
+	public void testUrlEndWithColon() {
+		Assertions.assertThrows(IllegalArgumentException.class, () ->
+				InfluxDBFactory.connect("http://" + TestUtils.getInfluxIP() + ":"));
+	}
 }
